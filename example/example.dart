@@ -1,18 +1,4 @@
-grill
-=====
 
-Grill your ~~suspects~~ users for answers at the ~~stand~~ command-line prompt.
-
-##Install
-
-```shell
-pub global activate den
-den install grill
-```
-
-##Usage
-
-```dart
 import 'package:grill/grill.dart';
 
 main() {
@@ -47,4 +33,3 @@ password: $password
 like kittens: $likeKittens
 favorite color: $favoriteColor''');
 }
-```

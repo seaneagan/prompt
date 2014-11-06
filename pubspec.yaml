@@ -1,0 +1,6 @@
+name: grill
+version: 0.1.0
+author: Sean Eagan <seaneagan1@gmail.com>
+homepage: https://github.com/seaneagan/grill
+dev_dependencies:
+  unittest: any
