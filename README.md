@@ -13,38 +13,38 @@ den install grill
 ##Usage
 
 ```dart
+import 'dart:async';
+
 import 'package:grill/grill.dart';
 
 main() {
+  print('Sync:\n');
+  displayAnswers(questions.map(askSync).toList());
 
-  print('Sync:');
-
-  displayAnswers(
-    askSync('Name'),
-    askSync(new Question('Password', secret: true)),
-    confirmSync('Like kittens'),
-    askSync(new Question('Favorite color', allowed: ['red', 'green', 'blue']))
-  );
-
-  print('Async:');
-
-  ask('Name').then((name) {
-    return ask(new Question('Password', secret: true)).then((password) {
-      return confirm('Like kittens').then((likeKittens) {
-        return ask(new Question('Favorite color', allowed: ['red', 'green', 'blue'])).then((favoriteColor) {
-          displayAnswers(name, password, likeKittens, favoriteColor);
-        });
-      });
-    });
-  }).whenComplete(prompt.close);
+  print('Async:\n');
+  new Stream.fromIterable(questions)
+      .asyncMap(ask)
+      .toList()
+      .whenComplete(prompt.close)
+      .then(displayAnswers);
 }
 
+var questions = [
+  'Name',
+  new Question('Password', secret: true),
+  new Question.confirm('Like kittens'),
+  new Question('Favorite color', allowed: ['red', 'green', 'blue'])
+];
 
-displayAnswers(name, password, likeKittens, favoriteColor) {
-  print('''
-name: $name
-password: $password
-like kittens: $likeKittens
-favorite color: $favoriteColor''');
+displayAnswers(List answers) {
+  print('');
+  for(int i = 0; i < answers.length; i++) {
+    var q = questions[i];
+    var a = answers[i];
+    var message = q is Question ? q.message : q;
+    print('$message: $a');
+  }
+  print('');
 }
+
 ```
