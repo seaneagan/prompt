@@ -20,14 +20,6 @@ Future ask(question) => prompt.ask(question);
 /// [question] can be a [String] or [Question].
 askSync(question) => prompt.askSync(question);
 
-/// Confirm a [question] with the user.
-Future<bool> confirm(String question, {bool defaultValue}) =>
-    prompt.ask(new Question.confirm(question, defaultValue: defaultValue));
-
-/// Confirm a [question] with the user synchronously.
-bool confirmSync(String question, {bool defaultValue}) =>
-    prompt.askSync(new Question.confirm(question, defaultValue: defaultValue));
-
 /// Close the prompt.
 ///
 /// Call this when you no longer need to [ask] any more questions.  You do

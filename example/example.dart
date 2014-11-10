@@ -4,12 +4,10 @@ import 'dart:async';
 import 'package:grill/grill.dart';
 
 main() {
-  print('Sync:');
-  print('');
+  print('Sync:\n');
   displayAnswers(questions.map(askSync).toList());
 
-  print('Async:');
-  print('');
+  print('Async:\n');
   new Stream.fromIterable(questions)
       .asyncMap(ask)
       .toList()

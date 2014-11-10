@@ -2,10 +2,10 @@
 library grill.prompt;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'question.dart';
-import 'stdio.dart';
 import 'when.dart';
 
 /// A command-line prompt which can be used to [ask] [Question]s.
@@ -87,3 +87,7 @@ class Prompt {
   /// not need to call this method if you only use [askSync].
   close() => linesIterator.cancel();
 }
+
+Future<String> readLine() => linesIterator.moveNext().then((_) => linesIterator.current);
+StreamIterator linesIterator = new StreamIterator(_lines);
+final _lines = stdin.transform(UTF8.decoder).transform(const LineSplitter());
