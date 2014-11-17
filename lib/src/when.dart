@@ -3,8 +3,20 @@ library when;
 
 import 'dart:async';
 
-/// Calls [callback] and registers callbacks on the result, which are fired
-/// asynchronously if it's a [Future] and synchronously otherwise.
+
+/// Registers callbacks on the result of a [callback], which may or may not be
+/// a [Future].
+///
+/// If the value is a Future, [onSuccess], [onError], and [onComplete] are
+/// registered on it, and the resulting future is returned.
+///
+/// If [callback] returns a future, any callbacks are registered on the Future,
+/// and the resulting future is returned.
+///
+/// Otherwise, if [callback] threw, [onError] is called synchronously with the
+/// error, and the return value captured.  Otherwise [onSuccess] is called, and
+/// the return value captured.  [onComplete] is then called.  The captured
+/// value is then returned.
 ///
 /// [onError] can take either just an error, or a stack trace as well.
 when(callback, onSuccess(result), {onError, onComplete}) {
@@ -16,14 +28,13 @@ when(callback, onSuccess(result), {onError, onComplete}) {
   } catch (e, s) {
     if (onError != null) {
       if (onError is _Unary) {
-        onError(e);
+        result = onError(e);
       } else if (onError is _Binary) {
-        onError(e, s);
+        result = onError(e, s);
       } else {
         throw new ArgumentError(
             '"onError" callback must accept 1 or 2 arguments: $onError');
       }
-      result = onError(e);
     } else {
       rethrow;
     }
