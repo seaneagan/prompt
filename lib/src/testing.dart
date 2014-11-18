@@ -10,9 +10,9 @@ import 'util.dart';
 class MockPrompt extends Prompt {
 
   bool _closed = false;
-  final Answerer _answerer;
+  final _Answerer _answerer;
 
-  MockPrompt(this._answerer);
+  MockPrompt(answerer(Question question)) : _answerer = answerer;
   factory MockPrompt.map(Map<Question, dynamic> answerMap) =>
       new MockPrompt((Question question) => answerMap[question]);
 
@@ -28,4 +28,4 @@ class MockPrompt extends Prompt {
   close() => _closed = true;
 }
 
-typedef Answerer(Question question);
+typedef _Answerer(Question question);

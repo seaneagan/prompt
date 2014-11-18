@@ -46,5 +46,4 @@ displayAnswers(List answers) {
   }
   print('');
 }
-
 ```

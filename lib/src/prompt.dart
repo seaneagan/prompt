@@ -14,11 +14,16 @@ import 'when.dart';
 /// Questions can also be asked synchronously via [askSync].
 class Prompt {
 
-  final String prompt = '> ';
+  /// The string used to prompt the user for input.
+  final String promptString = '> ';
   final int maxTries = 3;
 
-  String formatQuestion(Question question) => question.message;
-  String formatHint(Question question) {
+  /// Returns the output a user sees for a given [question].
+  String formatQuestion(Question question) =>
+      '$promptString${_formatMessage(question)}: ${_formatHint(question)}';
+
+  String _formatMessage(Question question) => question.message;
+  String _formatHint(Question question) {
     var allowed = question.allowed;
     if(allowed is Iterable) {
       if(allowed.every((item) => item.length == 1)) {
@@ -26,7 +31,7 @@ class Prompt {
       }
       var buffer = new StringBuffer('\n');
       allowed.toList().asMap().forEach((index, value) => buffer.write('  ${index + 1}) $value\n'));
-      buffer.write(prompt);
+      buffer.write(promptString);
       return buffer.toString();
     }
     return '';
@@ -49,7 +54,7 @@ class Prompt {
 
   _ask(question, getAnswer, [int tryCount = 1]) {
     var q = toQuestion(question);
-    var output = '$prompt${formatQuestion(q)}: ${formatHint(q)}';
+    var output = '$promptString${_formatMessage(q)}: ${_formatHint(q)}';
     stdout.write(output);
     bool originalEchoMode;
     if(q.secret) {
