@@ -3,7 +3,6 @@ library when;
 
 import 'dart:async';
 
-
 /// Registers callbacks on the result of a [callback], which may or may not be
 /// a [Future].
 ///

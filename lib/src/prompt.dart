@@ -2,10 +2,11 @@
 library grill.prompt;
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
+import 'stdio.dart';
 import 'question.dart';
+import 'util.dart';
 import 'when.dart';
 
 /// A command-line prompt which can be used to [ask] [Question]s.
@@ -47,7 +48,7 @@ class Prompt {
   askSync(question) => _ask(question, stdin.readLineSync);
 
   _ask(question, getAnswer, [int tryCount = 1]) {
-    var q = _question(question);
+    var q = toQuestion(question);
     var output = '$prompt${formatQuestion(q)}: ${formatHint(q)}';
     stdout.write(output);
     bool originalEchoMode;
@@ -79,15 +80,9 @@ class Prompt {
     });
   }
 
-  Question _question(question) => question is Question ? question : new Question(question);
-
   /// Close the prompt.
   ///
   /// Call this when you no longer need to [ask] any more questions.  You do
   /// not need to call this method if you only use [askSync].
   close() => linesIterator.cancel();
 }
-
-Future<String> readLine() => linesIterator.moveNext().then((_) => linesIterator.current);
-StreamIterator linesIterator = new StreamIterator(_lines);
-final _lines = stdin.transform(UTF8.decoder).transform(const LineSplitter());

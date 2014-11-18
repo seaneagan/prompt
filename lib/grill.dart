@@ -4,6 +4,7 @@ library grill;
 import 'dart:async';
 
 import 'src/prompt.dart';
+export 'src/prompt.dart';
 import 'src/question.dart';
 export 'src/question.dart';
 
