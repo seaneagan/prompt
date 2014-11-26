@@ -1,7 +1,7 @@
 prompt
 ======
 
-Command-line prompts that can be easily data-driven, customized, and tested.
+Command-line prompting that is easy to data-drive, customize, and test.
 
 ##Install
 

@@ -34,7 +34,8 @@ class Prompt {
         return '(${allowed.join('/')}) ';
       }
       var buffer = new StringBuffer('\n');
-      allowed.toList().asMap().forEach((index, value) => buffer.write('  ${index + 1}) $value\n'));
+      allowed.toList().asMap().forEach((index, value) =>
+          buffer.write('  ${index + 1}) $value\n'));
       buffer.write(promptString);
       return buffer.toString();
     }
@@ -53,7 +54,8 @@ class Prompt {
 
   /// Ask a [question] ssynchronously.
   ///
-  /// [question] can be a [String] (representing [Question.message]) or a [Question].
+  /// [question] can be a [String] (representing [Question.message]) or a
+  /// [Question].
   askSync(question) => _ask(question, stdin.readLineSync);
 
   _ask(question, getAnswer, [int tryCount = 1]) {

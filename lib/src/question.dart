@@ -9,7 +9,8 @@ class Question {
   final String defaultValue;
   final bool secret;
 
-  Question(this.message, {this.allowed, this.defaultValue, this.secret: false});
+  Question(this.message, {this.allowed, this.defaultValue,
+      this.secret: false});
 
   factory Question.confirm(String message, {bool defaultValue}) = _Confirm;
 
