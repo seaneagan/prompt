@@ -12,12 +12,12 @@ main() {
   group('takeOrder', () {
     test('should ask extra questions when needed', () {
       var answers = {
-        CoffeeOrderQuestions.item: 'Espresso',
-        CoffeeOrderQuestions.double: false,
-        CoffeeOrderQuestions.size: 'Tall',
-        CoffeeOrderQuestions.iced: true,
-        CoffeeOrderQuestions.straw: false,
-        CoffeeOrderQuestions.name: 'Bob'
+        Questions.item: 'Espresso',
+        Questions.double: false,
+        Questions.size: 'Tall',
+        Questions.iced: true,
+        Questions.straw: false,
+        Questions.name: 'Bob'
       };
 
       var mockPrompt = new MockPrompt.map(answers);
@@ -33,10 +33,10 @@ main() {
 
     test('should not ask extra questions when not needed', () {
       var answers = {
-        CoffeeOrderQuestions.item: 'Coffee',
-        CoffeeOrderQuestions.size: 'Tall',
-        CoffeeOrderQuestions.iced: false,
-        CoffeeOrderQuestions.name: 'Bob'
+        Questions.item: 'Coffee',
+        Questions.size: 'Tall',
+        Questions.iced: false,
+        Questions.name: 'Bob'
       };
 
       var mockPrompt = new MockPrompt.map(answers);
@@ -45,7 +45,7 @@ main() {
 
       answers.keys.map(mockPrompt.askLogs).forEach((logs) =>
           logs.verify(happenedOnce));
-      [CoffeeOrderQuestions.double, CoffeeOrderQuestions.straw]
+      [Questions.double, Questions.straw]
           .map(mockPrompt.askLogs).forEach((logs) =>
               logs.verify(neverHappened));
 

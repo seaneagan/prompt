@@ -12,20 +12,20 @@ main() {
 }
 
 CoffeeOrder takeOrder(Prompt prompt) {
-  var item = prompt.askSync(CoffeeOrderQuestions.item);
+  var item = prompt.askSync(Questions.item);
   var double = (item == 'Espresso') ?
-      prompt.askSync(CoffeeOrderQuestions.double) : false;
-  var size = prompt.askSync(CoffeeOrderQuestions.size);
-  var iced = prompt.askSync(CoffeeOrderQuestions.iced);
+      prompt.askSync(Questions.double) : false;
+  var size = prompt.askSync(Questions.size);
+  var iced = prompt.askSync(Questions.iced);
   var straw = iced ?
-      prompt.askSync(CoffeeOrderQuestions.straw) : false;
-  var name = prompt.askSync(CoffeeOrderQuestions.name);
+      prompt.askSync(Questions.straw) : false;
+  var name = prompt.askSync(Questions.name);
 
   return new CoffeeOrder(item: item, size: size, iced: iced, name: name,
       double: double, straw: straw);
 }
 
-class CoffeeOrderQuestions {
+class Questions {
   static final item = new Question('What can I get for you', allowed:
       ['Coffee', 'Espresso', 'Cappucino', 'Mocha', 'Chai']);
   static final double = new Question.confirm('Double', defaultValue: false);
