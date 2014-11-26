@@ -1,5 +1,5 @@
 
-library grill.example.barista.coffee_order;
+library prompt.example.barista.coffee_order;
 
 //enum CoffeeItem {Coffee, Espresso, Cappucino, Mocha, Chai}
 //enum CoffeeSize {Short, Tall, Grande}

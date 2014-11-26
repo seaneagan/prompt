@@ -1,5 +1,5 @@
 
-library grill.prompt;
+library prompt.prompt;
 
 import 'dart:async';
 import 'dart:io';

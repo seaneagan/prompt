@@ -1,7 +1,8 @@
-name: grill
+name: prompt
 version: 0.1.0
 author: Sean Eagan <seaneagan1@gmail.com>
-homepage: https://github.com/seaneagan/grill
+description: Command-line prompts that can be easily data-driven, customized, and tested.
+homepage: https://github.com/seaneagan/prompt
 dependencies:
   mock: '>=0.11.0 <0.12.0'
 dev_dependencies:

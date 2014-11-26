@@ -1,7 +1,7 @@
 
-library grill.example.barista;
+library prompt.example.barista;
 
-import 'package:grill/grill.dart';
+import 'package:prompt/prompt.dart';
 
 import 'coffee_order.dart';
 import 'serve.dart';

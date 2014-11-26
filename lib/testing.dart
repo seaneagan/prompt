@@ -1,5 +1,5 @@
 
-library grill.testing;
+library prompt.testing;
 
 import 'dart:async';
 

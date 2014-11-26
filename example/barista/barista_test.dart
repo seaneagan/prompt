@@ -1,7 +1,7 @@
 
-library grill.example.barista.test;
+library prompt.example.barista.test;
 
-import 'package:grill/testing.dart';
+import 'package:prompt/testing.dart';
 import 'package:mock/mock.dart';
 import 'package:unittest/unittest.dart';
 

@@ -1,5 +1,5 @@
 
-library grill.question;
+library prompt.question;
 
 /// A question.
 class Question {

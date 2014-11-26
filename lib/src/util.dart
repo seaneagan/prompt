@@ -1,5 +1,5 @@
 
-library grill.util;
+library prompt.util;
 
 import 'question.dart';
 

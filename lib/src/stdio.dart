@@ -1,5 +1,5 @@
 
-library grill.stdio;
+library prompt.stdio;
 
 import 'dart:async';
 import 'dart:convert';

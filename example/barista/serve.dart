@@ -1,5 +1,5 @@
 
-library grill.example.barista.serve;
+library prompt.example.barista.serve;
 
 import 'dart:math';
 

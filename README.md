@@ -1,13 +1,13 @@
-grill
-=====
+prompt
+======
 
-Grill your ~~suspects~~ users for answers at the ~~stand~~ command-line prompt.
+Command-line prompts that can be easily data-driven, customized, and tested.
 
 ##Install
 
 ```shell
 pub global activate den
-den install grill
+den install prompt
 ```
 
 ##Usage
@@ -15,7 +15,7 @@ den install grill
 ```dart
 // barista_test.dart
 
-import 'package:grill/grill.dart';
+import 'package:prompt/prompt.dart';
 
 import 'coffee_order.dart';
 import 'serve.dart';
@@ -56,7 +56,7 @@ class Questions {
 ```
 // barista_test.dart
 
-import 'package:grill/testing.dart';
+import 'package:prompt/testing.dart';
 import 'package:mock/mock.dart';
 import 'package:unittest/unittest.dart';
 
