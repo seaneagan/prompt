@@ -8,16 +8,21 @@ class Question {
   final allowed;
   final String defaultValue;
   final bool secret;
+  final parser;
 
   Question(this.message, {this.allowed, this.defaultValue,
-      this.secret: false});
+      this.secret: false, this.parser});
 
   factory Question.confirm(String message, {bool defaultValue}) = _Confirm;
 
   bool get required => defaultValue == null;
 
   parse(String answer) {
-    if(allowed is List) {
+    if (parser != null) {
+      return parser(answer);
+    }
+
+    if (allowed is List) {
       badAnswer() {
         throw 'Answer "$answer" is not an integer in (1..${allowed.length})';
       }
@@ -49,3 +54,5 @@ class _Confirm extends Question {
 
   bool parse(String answer) => ['y', 'yes'].contains(answer.toLowerCase());
 }
+
+typedef _Unary(_);

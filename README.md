@@ -3,6 +3,11 @@ prompt
 
 Command-line prompting that is easy to data-drive, customize, and test.
 
+`Question`s represent a request for a particular piece of user input.
+`Prompt`s allow you to `ask` (or `askSync`) these questions, and customize the 
+UX for them.  There are top-level functions exposed to use the default prompt.
+You can also use a `MockPrompt` for testing purposes.
+
 ##Install
 
 ```shell
@@ -12,102 +17,99 @@ den install prompt
 
 ##Usage
 
-```dart
-// barista_test.dart
+This and other examples can be found in the [example folder][example].
+[example]: https://github.com/seaneagan/prompt/tree/master/example
 
+```
 import 'package:prompt/prompt.dart';
 
-import 'coffee_order.dart';
-import 'serve.dart';
+main() async {
+  // Synchronously get a String from the user:
+  var name = askSync('Name');
 
-main() {
-  var order = takeOrder(prompt);
-  print(serve(order));
+  // Asynchronously:
+  var asyncName = await ask('Name');
+
+  // The [Question] interface allows for more control.
+  
+  // Get a secret value:
+  String password = askSync(new Question('Password', secret: true));
+
+  // Get a boolean:
+  bool likeCats = askSync(new Question.confirm('Like cats'));
+
+  // Get an answer from a list of choices.
+  String favoriteColor = askSync(new Question('Favorite color', allowed:
+      ['red', 'green', 'blue']));
+
+  // Get an `int` (custom validation):
+  int favoriteNumber = askSync(new Question('Favorite number',
+      parser: int.parse));
+
+  // Custom Prompt/UI (extend Prompt for further customization):
+  var myPrompt = new Prompt(maxAttempts: 1, promptString: 'prompt: ');
+
+  var likeMyPrompt = myPrompt.askSync(new Question.confirm('Like my prompt'));
+
+  // Make a function with prompting logic testable by passing it a prompt.
+  // [prompt] is the default prompt.
+  var sum = add3(prompt);
+
+  // If you use [ask] anywhere, you must close stdin when done.
+  close();
 }
 
-CoffeeOrder takeOrder(Prompt prompt) {
-  var item = prompt.askSync(Questions.item);
-  var double = (item == 'Espresso') ?
-      prompt.askSync(Questions.double) : false;
-  var size = prompt.askSync(Questions.size);
-  var iced = prompt.askSync(Questions.iced);
-  var straw = iced ?
-      prompt.askSync(Questions.straw) : false;
-  var name = prompt.askSync(Questions.name);
-
-  return new CoffeeOrder(item: item, size: size, iced: iced, name: name,
-      double: double, straw: straw);
+num add3(Prompt prompt) {
+  var confident = prompt.askSync(Add3Questions.confident);
+  if (!confident) {
+    print('No sum for you!');
+    return null;
+  }
+  num getNum() => prompt.askSync(Add3Questions.addend);
+  return getNum() + getNum() + getNum();
 }
 
-class Questions {
-  static final item = new Question('What can I get for you', allowed:
-      ['Coffee', 'Espresso', 'Cappucino', 'Mocha', 'Chai']);
-  static final double = new Question.confirm('Double', defaultValue: false);
-  static final size = new Question('What size', allowed:
-      ['Short', 'Tall', 'Grande']);
-  static final iced = new Question.confirm('Iced', defaultValue: false);
-  static final straw = new Question.confirm('Straw', defaultValue: false);
-  static final name = new Question('Name');
-
-  static final List<Question> all = [item, double, size, iced, straw, name];
+class Add3Questions {
+  static final confident = new Question.confirm('Do you think this will work');
+  static final addend = new Question('Enter a number', parser: num.parse);
 }
 ```
 
-```
-// barista_test.dart
+###Testing
 
-import 'package:prompt/testing.dart';
+```
 import 'package:mock/mock.dart';
+import 'package:prompt/testing.dart';
 import 'package:unittest/unittest.dart';
 
-import 'barista.dart';
-import 'coffee_order.dart';
+import 'basic.dart';
 
 main() {
-  group('takeOrder', () {
-    test('should ask extra questions when needed', () {
-      var answers = {
-        Questions.item: 'Espresso',
-        Questions.double: false,
-        Questions.size: 'Tall',
-        Questions.iced: true,
-        Questions.straw: false,
-        Questions.name: 'Bob'
-      };
+  group('add3', () {
+    test('should not allow doubters to ask any furthers questions', () {
+      var mockPrompt = new MockPrompt((question) {
+        if (question == Add3Questions.confident) return false;
+        if (question == Add3Questions.addend) throw 'Asked doubter for addends';
+        throw 'Unrecognized question';
+      });
 
-      var mockPrompt = new MockPrompt.map(answers);
+      var sum = add3(mockPrompt);
 
-      var order = takeOrder(mockPrompt);
-
-      answers.keys.map(mockPrompt.askLogs).forEach((logs) =>
-          logs.verify(happenedOnce));
-
-      expect(order, new CoffeeOrder(item: 'Espresso', double: false,
-          size: 'Tall', iced: true, straw: false, name: 'Bob'));
+      expect(sum, isNull);
     });
 
-    test('should not ask extra questions when not needed', () {
-      var answers = {
-        Questions.item: 'Coffee',
-        Questions.size: 'Tall',
-        Questions.iced: false,
-        Questions.name: 'Bob'
-      };
+    test('should calculate sum for believers', () {
+      var mockPrompt = new MockPrompt((question) {
+        if (question == Add3Questions.confident) return true;
+        if (question == Add3Questions.addend) return 5;
+        throw 'Unrecognized question';
+      });
 
-      var mockPrompt = new MockPrompt.map(answers);
+      var sum = add3(mockPrompt);
 
-      var order = takeOrder(mockPrompt);
-
-      answers.keys.map(mockPrompt.askLogs).forEach((logs) =>
-          logs.verify(happenedOnce));
-      [Questions.double, Questions.straw]
-          .map(mockPrompt.askLogs).forEach((logs) =>
-              logs.verify(neverHappened));
-
-      expect(order, new CoffeeOrder(item: 'Coffee', double: false,
-          size: 'Tall', iced: false, straw: false, name: 'Bob'));
+      mockPrompt.askLogs(Add3Questions.addend).verify(happenedExactly(3));
+      expect(sum, 15);
     });
   });
 }
-
 ```

@@ -1,8 +1,8 @@
 
 library prompt.example.barista.test;
 
-import 'package:prompt/testing.dart';
 import 'package:mock/mock.dart';
+import 'package:prompt/testing.dart';
 import 'package:unittest/unittest.dart';
 
 import 'barista.dart';
