@@ -15,8 +15,12 @@ import 'when.dart';
 class Prompt {
 
   /// The string used to prompt the user for input.
-  final String promptString = '> ';
-  final int maxTries = 3;
+  final String promptString;
+
+  /// The max attempts a user has to give a valid answer to a question.
+  final int maxAttempts;
+
+  Prompt({this.maxAttempts: 3, this.promptString: '> '});
 
   /// Returns the output a user sees for a given [question].
   String formatQuestion(Question question) =>
@@ -75,10 +79,10 @@ class Prompt {
         validated = q.validateAnswer(answer);
       } catch (e) {
         stdout.writeln('error: $e');
-        if (tryCount < maxTries) {
+        if (tryCount < maxAttempts) {
           return _ask(q, getAnswer, tryCount + 1);
         } else {
-          stdout.writeln('error: Max tries ($maxTries) reached.');
+          stdout.writeln('error: Max tries ($maxAttempts) reached.');
         }
       }
       return validated;

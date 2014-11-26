@@ -2,5 +2,7 @@ name: grill
 version: 0.1.0
 author: Sean Eagan <seaneagan1@gmail.com>
 homepage: https://github.com/seaneagan/grill
+dependencies:
+  mock: '>=0.11.0 <0.12.0'
 dev_dependencies:
-  unittest: any
+  unittest: '>=0.11.0 <0.12.0'
