@@ -1,4 +1,4 @@
-prompt
+prompt [![pub package](http://img.shields.io/pub/v/prompt.svg)](https://pub.dartlang.org/packages/prompt) [![Build Status](https://drone.io/github.com/seaneagan/prompt/status.png)](https://drone.io/github.com/seaneagan/prompt/latest)
 ======
 
 Command-line prompting that is easy to data-drive, customize, and test.
