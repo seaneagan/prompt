@@ -8,6 +8,8 @@ Command-line prompting that is easy to data-drive, customize, and test.
 * Top-level `ask` and `askSync` - Conveniences for using the default `prompt`.
 * `MockPrompt` - A mock prompt for testing purposes.
 
+[![Barista Example](/../gh-pages/assets/barista_prompt_example.gif?raw=true)](https://github.com/seaneagan/prompt/tree/master/example/barista)
+
 ##Install
 
 ```shell
@@ -17,9 +19,6 @@ den install prompt
 ...or [the manual way](https://pub.dartlang.org/packages/prompt#installing).
 
 ##Usage
-
-From the [example folder][example]:
-[example]: https://github.com/seaneagan/prompt/tree/master/example
 
 ```dart
 import 'package:prompt/prompt.dart';

@@ -1,5 +1,5 @@
 name: prompt
-version: 0.1.0
+version: 0.1.1
 author: Sean Eagan <seaneagan1@gmail.com>
 description: Command-line prompting that is easy to data-drive, customize, and test.
 homepage: https://github.com/seaneagan/prompt
