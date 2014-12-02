@@ -8,7 +8,7 @@ Command-line prompting that is easy to data-drive, customize, and test.
 * Top-level `ask` and `askSync` - Conveniences for using the default `prompt`.
 * `MockPrompt` - A mock prompt for testing purposes.
 
-[![Barista Example](/../gh-pages/assets/barista_prompt_example.gif?raw=true)](https://github.com/seaneagan/prompt/tree/master/example/barista)
+[![Barista Example](https://github.com/seaneagan/prompt/raw/gh-pages/assets/barista_prompt_example.gif?raw=true)](https://github.com/seaneagan/prompt/tree/master/example/barista)
 
 ##Install
 
