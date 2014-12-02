@@ -10,6 +10,8 @@ main() async {
   // Asynchronously:
   var asyncName = await ask('Name');
 
+  // Use [Question]s for more control:
+
   // Get a secret value:
   String password = askSync(new Question('Password', secret: true));
 

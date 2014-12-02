@@ -3,10 +3,10 @@ prompt [![pub package](http://img.shields.io/pub/v/prompt.svg)](https://pub.dart
 
 Command-line prompting that is easy to data-drive, customize, and test.
 
-`Question`s represent a specific information request to the user.  `Prompt`s 
-allow you to `ask` (or `askSync`) these questions, and customize the UX for 
-them.  The top-level `ask` and `askSync` are conveniences for using the default
-`prompt`.  `MockPrompt` is available for testing purposes.
+* `Question` - An information request to the user.
+* `Prompt` - `ask` (or `askSync`) a `Question` with customizable UX.
+* Top-level `ask` and `askSync` - Conveniences for using the default `prompt`.
+* `MockPrompt` - A mock prompt for testing purposes.
 
 ##Install
 
@@ -14,13 +14,14 @@ them.  The top-level `ask` and `askSync` are conveniences for using the default
 pub global activate den
 den install prompt
 ```
+...or [the manual way](https://pub.dartlang.org/packages/prompt#installing).
 
 ##Usage
 
-This and other examples can be found in the [example folder][example].
+From the [example folder][example]:
 [example]: https://github.com/seaneagan/prompt/tree/master/example
 
-```
+```dart
 import 'package:prompt/prompt.dart';
 
 main() async {
@@ -30,7 +31,7 @@ main() async {
   // Asynchronously:
   var asyncName = await ask('Name');
 
-  // The [Question] interface allows for more control.
+  // Use [Question]s for more control:
   
   // Get a secret value:
   String password = askSync(new Question('Password', secret: true));
@@ -77,7 +78,7 @@ class Add3Questions {
 
 ###Testing
 
-```
+```dart
 import 'package:mock/mock.dart';
 import 'package:prompt/testing.dart';
 import 'package:unittest/unittest.dart';
