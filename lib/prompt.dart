@@ -8,6 +8,7 @@ export 'src/prompt.dart';
 import 'src/question.dart';
 export 'src/question.dart';
 
+/// The default [Prompt] used by [ask], [askSync], and [close].
 Prompt get prompt => _prompt;
 Prompt _prompt = new Prompt();
 

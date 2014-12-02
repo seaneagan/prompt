@@ -1,7 +1,7 @@
 
 library prompt.question;
 
-/// A question.
+/// An information request to the user.
 class Question {
 
   final String message;
@@ -41,7 +41,7 @@ class Question {
   }
 
   validateAnswer(String answer) {
-    if(answer == '' && required) {
+    if (answer == '' && required) {
       throw 'Response is required';
     }
 

@@ -3,10 +3,10 @@ prompt [![pub package](http://img.shields.io/pub/v/prompt.svg)](https://pub.dart
 
 Command-line prompting that is easy to data-drive, customize, and test.
 
-`Question`s represent a request for a particular piece of user input.
-`Prompt`s allow you to `ask` (or `askSync`) these questions, and customize the 
-UX for them.  There are top-level functions exposed to use the default prompt.
-You can also use a `MockPrompt` for testing purposes.
+`Question`s represent a specific information request to the user.  `Prompt`s 
+allow you to `ask` (or `askSync`) these questions, and customize the UX for 
+them.  The top-level `ask` and `askSync` are conveniences for using the default
+`prompt`.  `MockPrompt` is available for testing purposes.
 
 ##Install
 

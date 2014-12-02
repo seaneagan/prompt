@@ -9,9 +9,7 @@ import 'question.dart';
 import 'util.dart';
 import 'when.dart';
 
-/// A command-line prompt which can be used to [ask] [Question]s.
-///
-/// Questions can also be asked synchronously via [askSync].
+/// A command-line prompt used to [ask] (or [askSync]) [Question]s.
 class Prompt {
 
   /// The string used to prompt the user for input.
