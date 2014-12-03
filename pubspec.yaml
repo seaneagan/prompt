@@ -1,9 +1,11 @@
 name: prompt
-version: 0.1.1
+version: 0.1.2
 author: Sean Eagan <seaneagan1@gmail.com>
 description: Command-line prompting that is easy to data-drive, customize, and test.
 homepage: https://github.com/seaneagan/prompt
 dependencies:
+  ansicolor: any
   mock: '>=0.11.0 <0.12.0'
+  supports_color: any
 dev_dependencies:
   unittest: '>=0.11.0 <0.12.0'
