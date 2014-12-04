@@ -28,11 +28,11 @@ CoffeeOrder takeOrder(Prompt prompt) {
 class Questions {
   static final item = new Question('What can I get for you', allowed:
       ['Coffee', 'Espresso', 'Cappucino', 'Mocha', 'Chai']);
-  static final double = new Question.confirm('Double', defaultValue: false);
+  static final double = new Question.confirm('Double', defaultsTo: false);
   static final size = new Question('What size', allowed:
-      ['Short', 'Tall', 'Grande']);
-  static final iced = new Question.confirm('Iced', defaultValue: false);
-  static final straw = new Question.confirm('Straw', defaultValue: false);
+      {'s': 'Short', 't': 'Tall', 'g': 'Grande'});
+  static final iced = new Question.confirm('Iced', defaultsTo: false);
+  static final straw = new Question.confirm('Straw', defaultsTo: false);
   static final name = new Question('Name');
 
   static final List<Question> all = [item, double, size, iced, straw, name];

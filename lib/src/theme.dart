@@ -9,7 +9,7 @@ import 'util.dart';
 class PromptTheme {
   final _allowedPen = new AnsiPen();
   final _allowedHelpPen = new AnsiPen();
-  final _errorPen = new AnsiPen()..red();
+  final _errorPen = new AnsiPen()..red(bold: true);
   final _inputPromptPen = new AnsiPen()..white(bold: true);
   final _messagePen = new AnsiPen()..white(bold: true);
   final _prefixPen = new AnsiPen()..green();
@@ -32,6 +32,8 @@ class PromptTheme {
   }
   String _inputPrompt;
 
+  String get _fullInputPrompt => '$inputPrompt ';
+
   PromptTheme({String prefix, String inputPrompt})
       : _prefix = prefix,
         _inputPrompt = inputPrompt {
@@ -39,8 +41,10 @@ class PromptTheme {
   }
 
   /// Returns the output a user sees for a given [question].
-  String formatQuestion(Question question) =>
-      '$prefix ${_messagePen(formatMessage(question))}${formatHint(question)}';
+  String formatQuestion(Question question, {int tryCount}) =>
+      tryCount > 1 ?
+          _fullInputPrompt :
+          '$prefix ${_messagePen(formatMessage(question))}${formatHint(question)}';
 
   String formatMessage(Question question) {
     var message = question.message;
@@ -67,11 +71,11 @@ class PromptTheme {
       var buffer = new StringBuffer('\n');
       allowed.forEach((key, value) =>
           buffer.write('  ${_allowedPen(key)}) ${_allowedHelpPen(value)}\n'));
-      buffer.write('$inputPrompt ');
+      buffer.write(_fullInputPrompt);
       return buffer.toString();
     }
     return '';
   }
 
-  String formatError(String error) => _errorPen('error: $error');
+  String formatError(String error) => '${_errorPen('X')} $error';
 }

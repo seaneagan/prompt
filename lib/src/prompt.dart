@@ -14,11 +14,11 @@ import 'when.dart';
 class Prompt {
 
   /// The max attempts a user has to give a valid answer to a question.
-  final int maxAttempts;
+  final int maxTries;
 
   final _theme = new PromptTheme();
 
-  Prompt({this.maxAttempts: 3});
+  Prompt({this.maxTries: 3});
 
   /// Ask a [question] asynchronously.
   ///
@@ -36,9 +36,9 @@ class Prompt {
   /// [Question].
   askSync(question) => _ask(question, stdin.readLineSync);
 
-  _ask(question, getAnswer, [int tryCount = 1]) {
+  _ask(question, getAnswer, {int tryCount: 1}) {
     var q = toQuestion(question);
-    var output = _theme.formatQuestion(q);
+    var output = _theme.formatQuestion(q, tryCount: tryCount);
     stdout.write(output);
     bool originalEchoMode;
     if(q.secret) {
@@ -59,10 +59,10 @@ class Prompt {
         validated = q.validateAnswer(answer);
       } catch (e) {
         stdout.writeln(_theme.formatError(e));
-        if (tryCount < maxAttempts) {
-          return _ask(q, getAnswer, tryCount + 1);
+        if (tryCount < maxTries) {
+          return _ask(q, getAnswer, tryCount: tryCount + 1);
         } else {
-          stdout.writeln(_theme.formatError('Max tries ($maxAttempts) reached.'));
+          stdout.writeln(_theme.formatError('Max tries ($maxTries) reached.'));
         }
       }
       return validated;

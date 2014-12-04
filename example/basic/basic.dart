@@ -26,11 +26,6 @@ main() async {
   int favoriteNumber = askSync(new Question('Favorite number',
       parser: int.parse));
 
-  // Custom Prompt/UI (extend Prompt for further customization):
-  var myPrompt = new Prompt(maxAttempts: 1, promptString: 'prompt: ');
-
-  var likeMyPrompt = myPrompt.askSync(new Question.confirm('Like my prompt'));
-
   // Make a function with prompting logic testable by passing it a prompt.
   // [prompt] is the default prompt.
   var sum = add3(prompt);
