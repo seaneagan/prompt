@@ -3,6 +3,8 @@ library prompt.example.barista.serve;
 
 import 'dart:math';
 
+import 'package:ansicolor/ansicolor.dart';
+
 import 'coffee_order.dart';
 
 String serve(CoffeeOrder order) => indent('''
@@ -10,9 +12,9 @@ ${_topContent(order)}
 ${_rowContent(order)}
 ''', _indent);
 
-_topContent(CoffeeOrder order) {
+String _topContent(CoffeeOrder order) {
   var topSize = _rowWidth(_rows.length);
-  if (order.iced && !order.straw) return '_' * topSize;
+  if (order.iced && !order.straw) return _cupPen('_' * topSize);
   var topRows = order.straw ?
   [
     '<_>',
@@ -28,10 +30,18 @@ _topContent(CoffeeOrder order) {
   var _steamRows = [
     center(topRows[0], topSize, ' '),
     center(topRows[1], topSize, ' '),
-    center(topRows[2], topSize, '_')
-  ];
+    colorLid(center(topRows[2], topSize, '_'))
+  ].map(colorSteam);
   return _steamRows.join('\n');
 }
+
+String colorSteam(String smoky) => smoky.replaceAllMapped(new RegExp(r'[()]'),
+    (Match match) => _steamPen(match.group(0)));
+var _steamPen = new AnsiPen()..gray(level: 0.5);
+
+String colorLid(String top) => top.replaceAllMapped(new RegExp(r'_+'),
+    (Match match) => _cupPen(match.group(0)));
+var _cupPen = new AnsiPen()..blue(bold: true);
 
 final int _indent = 2;
 
@@ -51,21 +61,29 @@ String _cupRow(String content, int row) {
   var cupContent = content.substring(0, min(content.length, rowWidth))
       .padRight(rowWidth);
   var handleRow = _handleRows[row];
-  return '$prefix\\$cupContent/$handleRow';
+  return '$prefix${_cupPen('\\')}$cupContent${_cupPen('/$handleRow')}';
 }
 
 _rowWidth(int row) => row * 2 + _bottomWidth;
 
+
 List _rows = [
-  (order) => order.iced ? ('-^' * (_rowWidth(_rows.length - 1) ~/ 2)) : '',
-  (order) => '   ' + order.name,
-  (order) =>  '  ' + order.item + (order.double ? ' X 2' : ''),
-  (order) =>   ' ' + (order.iced ? '☑' : '☐') + ' Iced',
+  (order) => order.iced ? (_styledIcePattern *
+      (_rowWidth(_rows.length - 1) ~/ _icePattern.length)) : '',
+  (order) => '   ' + _textPen(order.name),
+  (order) =>  '  ' + _textPen(order.item + (order.double ? ' X 2' : '')),
+  (order) =>   ' ' + _textPen('[' + (order.iced ? 'x' : ' ') + '] Iced'),
   (order) => '',
   (order) => _bottom,
 ];
-
-var x = '^-^-^-^-^-^';
+var _iceCube1 = '[]';
+var _iceCube2 = '<>';
+var _surface = '-';
+var _surfacePen = (x) => x; // new AnsiPen()..yellow();
+var _icePattern = _surface + _iceCube1 + _surface + _iceCube2;
+var _styledIcePattern = _surfacePen(_surface) + _icePen(_iceCube1) + _surfacePen(_surface) + _icePen(_iceCube2);
+var _icePen = (x) => x; // new AnsiPen()..cyan(bold: true);
+var _textPen = (x) => x; // new AnsiPen()..white(bold: true);
 
 var _handleRows = [
        '',
@@ -76,7 +94,7 @@ var _handleRows = [
   ''
 ];
 
-final String _bottom = '${'_' * _bottomWidth}';
+final String _bottom = '_' * _bottomWidth;
 final int _bottomWidth = 8;
 
 indent(String s, int count, [String indenter = ' ']) =>
