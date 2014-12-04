@@ -4,8 +4,8 @@ author: Sean Eagan <seaneagan1@gmail.com>
 description: Command-line prompting that is easy to data-drive, customize, and test.
 homepage: https://github.com/seaneagan/prompt
 dependencies:
-  ansicolor: any
+  ansicolor: '>=0.0.9 <0.1.0'
   mock: '>=0.11.0 <0.12.0'
-  supports_color: any
+  supports_color: '>=0.1.1 <0.2.0'
 dev_dependencies:
   unittest: '>=0.11.0 <0.12.0'
