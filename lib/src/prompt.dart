@@ -8,7 +8,7 @@ import 'question.dart';
 import 'stdio.dart';
 import 'theme.dart';
 import 'util.dart';
-import 'when.dart';
+import 'package:when/when.dart';
 
 /// A command-line prompt used to [ask] (or [askSync]) [Question]s.
 class Prompt {
@@ -45,7 +45,7 @@ class Prompt {
       originalEchoMode = stdin.echoMode;
       stdin.echoMode = false;
     }
-    return when(getAnswer, (answer) {
+    return when(getAnswer, onSuccess: (answer) {
       if (answer == null) {
         stdout.writeln(_theme.formatError('No answer received.'));
       }
