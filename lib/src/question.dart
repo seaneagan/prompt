@@ -18,7 +18,7 @@ class Question {
   final allowed;
 
   /// The default if no answer is provided.
-  final String defaultsTo;
+  final defaultsTo;
 
   /// Whether to keep the answer secret by masking the typed keys.
   ///
@@ -67,8 +67,12 @@ class Question {
   }
 
   validateAnswer(String answer) {
-    if (answer == '' && required) {
-      throw 'Response is required';
+    if (answer.isEmpty) {
+      if (required) {
+        throw 'Response is required';
+      }
+
+      return defaultsTo;
     }
 
     return parse(answer);
@@ -76,7 +80,7 @@ class Question {
 }
 
 class _Confirm extends Question {
-  _Confirm(String message, {bool defaultsTo: false}) : super(message, allowed: const ['y', 'n'], defaultsTo: defaultsTo == null ? null : (defaultsTo ? 'y' : 'n'));
+  _Confirm(String message, {bool defaultsTo: false}) : super(message, allowed: const ['y', 'n'], defaultsTo: defaultsTo);
 
   bool parse(String answer) => ['y', 'yes'].contains(answer.toLowerCase());
 }

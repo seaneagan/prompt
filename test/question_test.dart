@@ -1,0 +1,86 @@
+
+library prompt.test;
+
+import 'package:prompt/src/question.dart';
+import 'package:unittest/unittest.dart';
+
+main() {
+  group('Question', () {
+
+    group('required', () {
+      test('should be true iff defaultsTo is null', () {
+        expect(new Question('foo').required, isTrue);
+        expect(new Question('foo', defaultsTo: 'x').required, isFalse);
+      });
+    });
+
+    group('validateAnswer', () {
+
+      group('when allowed', () {
+
+        group('is a List', () {
+
+          var question = new Question('foo', allowed: ['x', 'y', 'z']);
+
+          test('should return corresponding element for an int in range', () {
+            expect(question.validateAnswer('1'), 'x');
+            expect(question.validateAnswer('2'), 'y');
+            expect(question.validateAnswer('3'), 'z');
+          });
+
+          test('should throw if not parseable as an int in range', () {
+            expect(() => question.validateAnswer('0'), throws);
+            expect(() => question.validateAnswer('4'), throws);
+            expect(() => question.validateAnswer('x'), throws);
+          });
+        });
+
+        group('is a Map', () {
+
+          var question = new Question('foo', allowed: {'x': 1, 'y': 2, 'z': 3});
+
+          test('should return corresponding value for a valid key', () {
+            expect(question.validateAnswer('x'), 1);
+            expect(question.validateAnswer('y'), 2);
+            expect(question.validateAnswer('z'), 3);
+          });
+
+          test('should throw if not parseable as an int in range', () {
+            expect(() => question.validateAnswer('a'), throws);
+          });
+        });
+      });
+
+      group('when answer empty', () {
+
+        test('should return defaultsTo if not required (defaultsTo not null)', () {
+          var question = new Question('foo', defaultsTo: 5);
+          expect(question.validateAnswer(''), 5);
+        });
+
+        test('should throw if required (defaultsTo null)', () {
+          var question = new Question('foo');
+          expect(() => question.validateAnswer(''), throws);
+        });
+      });
+
+      test('when answer not empty should not return defaultsTo', () {
+        var question = new Question('foo', defaultsTo: 5);
+        expect(question.validateAnswer('x'), 'x');
+      });
+
+      group('when parser provided', () {
+
+        test('should return parser result', () {
+          var question = new Question('foo', parser: int.parse);
+          expect(question.validateAnswer('3'), 3);
+        });
+
+        test('should not catch parser error', () {
+          var question = new Question('foo', parser: int.parse);
+          expect(() => question.validateAnswer('x'), throwsFormatException);
+        });
+      });
+    });
+  });
+}

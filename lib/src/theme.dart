@@ -41,7 +41,7 @@ class PromptTheme {
   }
 
   /// Returns the output a user sees for a given [question].
-  String formatQuestion(Question question, {int tryCount}) =>
+  String formatQuestion(Question question, int tryCount) =>
       tryCount > 1 ?
           _fullInputPrompt :
           '$prefix ${_messagePen(formatMessage(question))}${formatHint(question)}';

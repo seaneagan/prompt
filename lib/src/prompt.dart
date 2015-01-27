@@ -38,7 +38,7 @@ class Prompt {
 
   _ask(question, getAnswer, {int tryCount: 1}) {
     var q = toQuestion(question);
-    var output = _theme.formatQuestion(q, tryCount: tryCount);
+    var output = _theme.formatQuestion(q, tryCount);
     stdout.write(output);
     bool originalEchoMode;
     if(q.secret) {
