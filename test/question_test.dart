@@ -20,18 +20,18 @@ main() {
 
         group('is a List', () {
 
-          var question = new Question('foo', allowed: ['x', 'y', 'z']);
+          var question = new Question('foo', allowed: [0.5, 3.14, 2.71]);
 
           test('should return corresponding element for an int in range', () {
-            expect(question.validateAnswer('1'), 'x');
-            expect(question.validateAnswer('2'), 'y');
-            expect(question.validateAnswer('3'), 'z');
+            expect(question.validateAnswer('1'), 0.5);
+            expect(question.validateAnswer('2'), 3.14);
+            expect(question.validateAnswer('3'), 2.71);
           });
 
           test('should throw if not parseable as an int in range', () {
             expect(() => question.validateAnswer('0'), throws);
             expect(() => question.validateAnswer('4'), throws);
-            expect(() => question.validateAnswer('x'), throws);
+            expect(() => question.validateAnswer('0.5'), throws);
           });
         });
 

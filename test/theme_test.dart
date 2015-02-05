@@ -9,22 +9,23 @@ import 'package:ansicolor/ansicolor.dart';
 main() {
   group('PromptTheme', () {
 
-    var theme, basicQ;
+    var theme;
     setUp(() {
       color_disabled = true;
       theme = new PromptTheme();
-      basicQ = new Question('foo');
     });
 
     group('formatQuestion', () {
 
       test('should have have full output on first try', () {
-        expect(theme.formatQuestion(basicQ, 1), '? foo: ');
+        var q = new Question('foo');
+        expect(theme.formatQuestion(q, 1), '? foo: ');
       });
 
       test('should merely prompt for more input on retries', () {
-        expect(theme.formatQuestion(basicQ, 2), '> ');
-        expect(theme.formatQuestion(basicQ, 3), '> ');
+        var q = new Question('foo');
+        expect(theme.formatQuestion(q, 2), '> ');
+        expect(theme.formatQuestion(q, 3), '> ');
       });
 
       test('should show hints for confirmations', () {
@@ -48,7 +49,7 @@ main() {
       });
 
       test('should show menu of keys to values for allowed Map', () {
-        var q = new Question('choose one', allowed: {'x': '1', 'y': '2', 'z': '3'});
+        var q = new Question('choose one', allowed: {'x': 1, 'y': 2, 'z': 3});
         expect(theme.formatQuestion(q, 1), '''
 ? choose one: 
   x) 1

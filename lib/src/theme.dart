@@ -56,21 +56,22 @@ class PromptTheme {
     var allowed = question.allowed;
 
     if (allowed is Iterable) {
+      allowed = allowed.map((v) => v.toString());
       if (allowed.every((item) => item.length == 1)) {
         return '(${allowed.map(_allowedPen).join('/')}) ';
       }
 
-      var newAllowed = {};
+      var allowedAsMap = {};
       allowed.toList().asMap().forEach((index, value) {
-        newAllowed[(index + 1).toString()] = value;
+        allowedAsMap[(index + 1).toString()] = value;
       });
-      allowed = newAllowed;
+      allowed = allowedAsMap;
     }
 
     if (allowed is Map) {
       var buffer = new StringBuffer('\n');
       allowed.forEach((key, value) =>
-          buffer.write('  ${_allowedPen(key)}) ${_allowedHelpPen(value)}\n'));
+          buffer.write('  ${_allowedPen(key.toString())}) ${_allowedHelpPen(value.toString())}\n'));
       buffer.write(_fullInputPrompt);
       return buffer.toString();
     }
