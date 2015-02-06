@@ -13,6 +13,7 @@ class PromptTheme {
   final _inputPromptPen = new AnsiPen()..white(bold: true);
   final _messagePen = new AnsiPen()..white(bold: true);
   final _prefixPen = new AnsiPen()..green();
+  final _defaultPen = new AnsiPen()..blue(bold: true);
 
   /// The prefix before the question's message.
   String get prefix {
@@ -54,11 +55,17 @@ class PromptTheme {
 
   String formatHint(Question question) {
     var allowed = question.allowed;
+    var defaultsTo = question.defaultsTo;
+    var formatter = question.formatter;
+    if (formatter == null) formatter = (x) => x.toString();
 
     if (allowed is Iterable) {
-      allowed = allowed.map((v) => v.toString());
-      if (allowed.every((item) => item.length == 1)) {
-        return '(${allowed.map(_allowedPen).join('/')}) ';
+      if (allowed.every((item) => formatter(item).length == 1)) {
+        var content = allowed.map((item) {
+          var pen = item == defaultsTo ?_defaultPen : _allowedPen;
+          return pen(formatter(item));
+        }).join('/');
+        return '($content) ';
       }
 
       var allowedAsMap = {};
@@ -70,11 +77,19 @@ class PromptTheme {
 
     if (allowed is Map) {
       var buffer = new StringBuffer('\n');
-      allowed.forEach((key, value) =>
-          buffer.write('  ${_allowedPen(key.toString())}) ${_allowedHelpPen(value.toString())}\n'));
+      allowed.forEach((key, value) {
+        var isDefault = value == defaultsTo;
+        var allowedHelpPen = isDefault ? _defaultPen : _allowedHelpPen;
+        buffer.write('  ${_allowedPen(key.toString())}) ${allowedHelpPen(formatter(value))}${isDefault ? ' (default)' : ''}\n');
+      });
       buffer.write(_fullInputPrompt);
       return buffer.toString();
     }
+
+    if (question.defaultsTo != null) {
+      return _defaultPen('(${question.defaultsTo})');
+    }
+
     return '';
   }
 

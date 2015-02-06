@@ -26,13 +26,13 @@ CoffeeOrder takeOrder(Prompt prompt) {
 }
 
 class Questions {
-  static final item = new Question('What can I get for you', allowed:
+  static final item = new Question('What can I get for you', defaultsTo: 'Coffee', allowed:
       ['Coffee', 'Espresso', 'Cappucino', 'Mocha', 'Chai']);
-  static final double = new Question.confirm('Double', defaultsTo: false);
-  static final size = new Question('What size', allowed:
+  static final double = new Question.confirm('Double');
+  static final size = new Question('What size', defaultsTo: 'Short', allowed:
       {'s': 'Short', 't': 'Tall', 'g': 'Grande'});
-  static final iced = new Question.confirm('Iced', defaultsTo: false);
-  static final straw = new Question.confirm('Straw', defaultsTo: false);
+  static final iced = new Question.confirm('Iced');
+  static final straw = new Question.confirm('Straw');
   static final name = new Question('Name');
 
   static final List<Question> all = [item, double, size, iced, straw, name];

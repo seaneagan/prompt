@@ -28,8 +28,11 @@ class Question {
   /// Custom answer text parser.
   final parser;
 
+  /// Choice formatter.
+  final formatter;
+
   Question(this.message, {this.allowed, this.defaultsTo,
-      this.secret: false, this.parser});
+      this.secret: false, this.parser, this.formatter});
 
   factory Question.confirm(String message, {bool defaultsTo}) = _Confirm;
 
@@ -80,7 +83,8 @@ class Question {
 }
 
 class _Confirm extends Question {
-  _Confirm(String message, {bool defaultsTo: false}) : super(message, allowed: const ['y', 'n'], defaultsTo: defaultsTo);
+  _Confirm(String message, {bool defaultsTo: false})
+      : super(message, allowed: const [true, false], defaultsTo: defaultsTo, formatter: (v) => v ? 'y' : 'n');
 
   bool parse(String answer) => ['y', 'yes'].contains(answer.toLowerCase());
 }
