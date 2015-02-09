@@ -86,8 +86,9 @@ class PromptTheme {
       return buffer.toString();
     }
 
-    if (defaultsTo != null && defaultsTo.isNotEmpty) {
-      return _defaultPen('($defaultsTo)');
+    if (defaultsTo != null && defaultsTo != '') {
+      var d = _defaultPen(formatter(defaultsTo));
+      return '($d) ';
     }
 
     return '';

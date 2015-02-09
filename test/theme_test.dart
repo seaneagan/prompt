@@ -22,6 +22,16 @@ main() {
         expect(theme.formatQuestion(q, 1), '? foo: ');
       });
 
+      test('should show default value', () {
+        var q = new Question('foo', defaultsTo: 'bar');
+        expect(theme.formatQuestion(q, 1), '? foo: (bar) ');
+      });
+
+      test('should not show default value when empty string', () {
+        var q = new Question('foo', defaultsTo: '');
+        expect(theme.formatQuestion(q, 1), '? foo: ');
+      });
+
       test('should merely prompt for more input on retries', () {
         var q = new Question('foo');
         expect(theme.formatQuestion(q, 2), '> ');
@@ -33,27 +43,32 @@ main() {
         expect(theme.formatQuestion(q, 1), '? agree: (y/N) ');
       });
 
+      test('should capitalize default value for confirmations', () {
+        var q = new Question.confirm('agree', defaultsTo: true);
+        expect(theme.formatQuestion(q, 1), '? agree: (Y/n) ');
+      });
+
       test('should show inline hints for allowed List of single chars', () {
         var q = new Question('foo', allowed: ['x', 'y', 'z']);
         expect(theme.formatQuestion(q, 1), '? foo: (x/y/z) ');
       });
 
       test('should show indexed menu for allowed List with at least one multi-char element', () {
-        var q = new Question('choose one', allowed: ['foo', 'bar', 'baz']);
+        var q = new Question('choose one', allowed: ['foo', 'bar', 'baz'], defaultsTo: 'bar');
         expect(theme.formatQuestion(q, 1), '''
 ? choose one: 
   1) foo
-  2) bar
+  2) bar (default)
   3) baz
 > ''');
       });
 
       test('should show menu of keys to values for allowed Map', () {
-        var q = new Question('choose one', allowed: {'x': 1, 'y': 2, 'z': 3});
+        var q = new Question('choose one', defaultsTo: 2, allowed: {'x': 1, 'y': 2, 'z': 3});
         expect(theme.formatQuestion(q, 1), '''
 ? choose one: 
   x) 1
-  y) 2
+  y) 2 (default)
   z) 3
 > ''');
       });
