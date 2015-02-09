@@ -30,7 +30,7 @@ main() {
 
       test('should show hints for confirmations', () {
         var q = new Question.confirm('agree');
-        expect(theme.formatQuestion(q, 1), '? agree: (y/n) ');
+        expect(theme.formatQuestion(q, 1), '? agree: (y/N) ');
       });
 
       test('should show inline hints for allowed List of single chars', () {
