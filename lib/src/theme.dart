@@ -13,7 +13,7 @@ class PromptTheme {
   final _inputPromptPen = new AnsiPen()..white(bold: true);
   final _messagePen = new AnsiPen()..white(bold: true);
   final _prefixPen = new AnsiPen()..green();
-  final _defaultPen = new AnsiPen()..blue(bold: true);
+  final _defaultPen = new AnsiPen();
 
   /// The prefix before the question's message.
   String get prefix {
@@ -86,8 +86,8 @@ class PromptTheme {
       return buffer.toString();
     }
 
-    if (question.defaultsTo != null) {
-      return _defaultPen('(${question.defaultsTo})');
+    if (defaultsTo != null && defaultsTo.isNotEmpty) {
+      return _defaultPen('($defaultsTo)');
     }
 
     return '';

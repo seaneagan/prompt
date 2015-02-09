@@ -84,7 +84,10 @@ class Question {
 
 class _Confirm extends Question {
   _Confirm(String message, {bool defaultsTo: false})
-      : super(message, allowed: const [true, false], defaultsTo: defaultsTo, formatter: (v) => v ? 'y' : 'n');
+      : super(message, allowed: const [true, false], defaultsTo: defaultsTo, formatter: (v) {
+        var letter = v ? 'y' : 'n';
+        return defaultsTo == v ? letter.toUpperCase() : letter;
+      });
 
   bool parse(String answer) => ['y', 'yes'].contains(answer.toLowerCase());
 }
