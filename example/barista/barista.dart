@@ -33,7 +33,7 @@ class Questions {
       {'s': 'Short', 't': 'Tall', 'g': 'Grande'});
   static final iced = new Question.confirm('Iced');
   static final straw = new Question.confirm('Straw');
-  static final name = new Question('Name', defaultsTo: '');
+  static final name = new Question('Name');
 
   static final List<Question> all = [item, double, size, iced, straw, name];
 }
