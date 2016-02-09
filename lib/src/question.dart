@@ -1,9 +1,7 @@
-
 library prompt.question;
 
 /// An information request to the user.
 class Question {
-
   /// The question text.
   final String message;
 
@@ -31,12 +29,18 @@ class Question {
   /// Choice formatter.
   final formatter;
 
-  Question(this.message, {this.allowed, this.defaultsTo,
-      this.secret: false, this.parser, this.formatter});
+  // Optional flag
+  final bool optional;
+
+  Question(this.message,
+      {this.allowed,
+      this.defaultsTo,
+      this.secret: false,
+      this.parser,
+      this.formatter,
+      this.optional: false});
 
   factory Question.confirm(String message, {bool defaultsTo}) = _Confirm;
-
-  bool get required => defaultsTo == null;
 
   parse(String answer) {
     if (parser != null) {
@@ -50,11 +54,10 @@ class Question {
       var choice;
       try {
         choice = int.parse(answer);
-      }
-      catch (e) {
+      } catch (e) {
         badIndex();
       }
-      if(choice < 1 || choice > allowed.length) badIndex();
+      if (choice < 1 || choice > allowed.length) badIndex();
       return allowed[choice - 1];
     }
 
@@ -71,11 +74,11 @@ class Question {
 
   validateAnswer(String answer) {
     if (answer.isEmpty) {
-      if (required) {
+      if (!optional && defaultsTo == null) {
         throw 'Response is required';
       }
 
-      return defaultsTo;
+      return (defaultsTo == null) ? "" : defaultsTo;
     }
 
     return parse(answer);
@@ -84,10 +87,11 @@ class Question {
 
 class _Confirm extends Question {
   _Confirm(String message, {bool defaultsTo: false})
-      : super(message, allowed: const [true, false], defaultsTo: defaultsTo, formatter: (v) {
-        var letter = v ? 'y' : 'n';
-        return defaultsTo == v ? letter.toUpperCase() : letter;
-      });
+      : super(message, allowed: const [true, false], defaultsTo: defaultsTo,
+            formatter: (v) {
+          var letter = v ? 'y' : 'n';
+          return defaultsTo == v ? letter.toUpperCase() : letter;
+        });
 
   bool parse(String answer) => ['y', 'yes'].contains(answer.toLowerCase());
 }

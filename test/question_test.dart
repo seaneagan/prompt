@@ -8,9 +8,9 @@ main() {
   group('Question', () {
 
     group('required', () {
-      test('should be true iff defaultsTo is null', () {
-        expect(new Question('foo').required, isTrue);
-        expect(new Question('foo', defaultsTo: 'x').required, isFalse);
+      test('should be true if when optional parameter is set', () {
+        expect(new Question('foo').optional, isFalse);
+        expect(new Question('foo', optional: true).optional, isTrue);
       });
     });
 
